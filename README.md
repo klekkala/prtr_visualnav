@@ -13,6 +13,7 @@ To utilize this package, ensure you have the following prerequisites installed:
 5. [TEB Local Planner](http://wiki.ros.org/teb_local_planner)
 
 ## Usage
-
+1. lego_loam: roslaunch lego_loam run.launch
+2. carla_navigation: roslaunch carla_navigation carla_navigation.launch
 ## Support
 For issues and questions, raise an issue in the repository or contact the maintainers.
