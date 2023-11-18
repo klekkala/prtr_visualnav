@@ -6,7 +6,7 @@ The package is designed to support both reinforcement learning policy and local 
 To utilize this package, ensure you have the following prerequisites installed:
 1. [ROS Noetic](http://wiki.ros.org/noetic/Installation)
 2. Python Packages: \
-   • Ray
+   • Ray \
    • PyTorch
 3. [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM): This package is crucial for LiDAR-based localization. Ensure you have it installed and configured properly.
 4. Velodyne LiDAR sensor
