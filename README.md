@@ -1,29 +1,23 @@
-## Pose extraction software
+## ROS Visual Navigation
+This ROS package integrates pretrained models and a trained policy into a real-world robot, enabling advanced navigation and perception capabilities. 
+The package is designed to support both reinforcement learning policy and local trajectory planner for effective path planning. 
 
-Majority of novel code is contained in extract_pose.py. Several other .py files are imported from the PathPlanningAstar repo at this [link](https://github.com/sanchithaseshadri/PathPlanningAstar.git")
+## Prerequisites
+To utilize this package, ensure you have the following prerequisites installed:
+1. [ROS Noetic](http://wiki.ros.org/noetic/Installation)
+2. Python Packages: \
+   message_filters==1.16.0 \
+   numpy==1.23.5 \
+   rospy==1.16.0 \
+   std_msgs==0.0.1 \
+   tf2_geometry_msgs==0.7.6 \
+   tf2_ros==0.7.6
+3. [LeGO-LOAM](https://github.com/RobustFieldAutonomyLab/LeGO-LOAM): This package is crucial for LiDAR-based localization. Ensure you have it installed and configured properly.
+4. Velodyne LiDAR sensor
+5. [TEB Local Planner](http://wiki.ros.org/teb_local_planner)
 
-##### How to run
-Run `python3 extract_pose.py`. Ensure that the needed rostopics are available and that `roscore` is running.
-
-##### Nodes
-Subscribes to:
-* /base_odometry/odom 
-* /base_scan
-* /localmap
-
-Publishes to:
-* /cmd_vel
-
-##### Comments
-Changes to `astar.py`:
-* Modified I modified the `MOVES`, `TOLERANCE`, and `G_MULTIPLIER` parameters. These can be further played around with.
-
-Changes to `node.py`:
-There were several transformations taking place that were unneeded for our application. 
-* I changed the `is_valid_move` and `is_valid` functions to omit transformations.
-* I added the `__lt__` method to `Node` to allow `Node` objects to be compared when performing `heapq` operations. 
-
-Changes to buildMap.py:
-* Reworked class initializer to work with arbitrary occupancy map, as prior implementation used a hard-coded one. 
-
-Additionally, a `TODO` note has been added to `safegoto.py` where all of the subscriber/publisher nodes are handled. These (in particular the `rospy.init_node()`, line 21 will have to be modified or removed)
+## Usage
+1. lego_loam: roslaunch lego_loam run.launch
+2. carla_navigation: roslaunch carla_navigation carla_navigation.launch
+## Support
+For issues and questions, raise an issue in the repository or contact the maintainers.
