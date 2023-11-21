@@ -4,7 +4,6 @@ import os
 import cv2
 import torch
 from torchvision.models import resnet50, ResNet50_Weights
-from classify import FFN
 import random
 GPU_indx = 0
 device = torch.device(GPU_indx if torch.cuda.is_available() else "cpu")
@@ -81,9 +80,9 @@ class VAEBEV(nn.Module):
         )
 
     def reparameterize(self, mu, logvar):
-        std = logvar.mul(0.5).exp_().cuda()
+        std = logvar.mul(0.5).exp_().to(device)
         # return torch.normal(mu, std)
-        esp = torch.randn(*mu.size()).cuda()
+        esp = torch.randn(*mu.size()).to(device)
         z = mu + std * esp
         return z
 
@@ -110,7 +109,7 @@ class Encoder(nn.Module):
 
         # vaeencoder
         self.bevencoder = VAEBEV(channel_in=1, ch=16, z=32).to(device)
-        vae_model_path = "/home2/ckpts/pretrained/carla/BEV_VAE_CARLA_RANDOM_BEV_CARLA_STANDARD_0.01_0.01_256_64.pt"
+        vae_model_path = "/home/administrator/ckpts/pretrained/carla/BEV_VAE_CARLA_RANDOM_BEV_CARLA_STANDARD_0.01_0.01_256_64.pt"
         vae_ckpt = torch.load(vae_model_path, map_location="cpu")
         self.bevencoder.load_state_dict(vae_ckpt['model_state_dict'])
         self.bevencoder.eval()
@@ -132,7 +131,7 @@ class Encoder(nn.Module):
         self.label = []
         self.fn = []
         if not classification:
-            root = "/home/carla/img2cmd/anchor"
+            root = "/home/administrator/img2cmd/anchor"
         else:
             root = "/home/carla/img2cmd/anchor1"
 
@@ -303,9 +302,9 @@ def readReal(top, bag=False):
 
 
 if __name__ == "__main__":
-    #net = FFN().to(device)
-    #net.load_state_dict(torch.load("/home/carla/img2cmd/bev.pt"))
-    #net.eval()
+    net = FFN().to(device)
+    net.load_state_dict(torch.load("/home/carla/img2cmd/bev.pt"))
+    net.eval()
 
     encoder = Encoder("/lab/kiran/ckpts/pretrained/FPV_BEV_CARLA_OLD_STANDARD_0.1_0.01_128_512.pt", False)
     #encoder = Encoder("/lab/kiran/ckpts/pretrained/carlaFPV_BEV_CARLA_NEWRANDOM_BEV_CARLA_STANDARD_0.1_0.01_128_512.pt", True)

@@ -49,9 +49,9 @@ class VAEBEV(nn.Module):
         )
 
     def reparameterize(self, mu, logvar):
-        std = logvar.mul(0.5).exp_().cuda()
+        std = logvar.mul(0.5).exp_().to(device)
         # return torch.normal(mu, std)
-        esp = torch.randn(*mu.size()).cuda()
+        esp = torch.randn(*mu.size()).to(device)
         z = mu + std * esp
         return z
 
@@ -80,7 +80,7 @@ class StateLSTM(nn.Module):
             self.encoder.eval()
             for param in self.encoder.parameters():
                 param.requires_grad = False
-        self.lstm = nn.LSTM(latent_size, hidden_size, num_layers, batch_first=True).cuda()
+        self.lstm = nn.LSTM(latent_size, hidden_size, num_layers, batch_first=True).to(device)
         self.latent_size = latent_size
         self.hidden_size = hidden_size
         self.num_layers = num_layers
